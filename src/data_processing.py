@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 
-def get_float_age(age: str) -> float:
+def age_to_float(age: str) -> float:
     pattern = r'(?P<years>\d+) years (?P<days>\d+) days'
     pattern_group = ('years', 'days')
 
@@ -23,6 +23,11 @@ def get_float_age(age: str) -> float:
         return np.nan
     
     return years + days / 365
+
+
+def convert_age(dataset: pd.DataFrame) -> pd.DataFrame:
+    dataset = [age_to_float(j) for j in dataset]
+    return dataset
 
 
 def encode_dataset(dataset: pd.DataFrame, columns: Optional[list[str]] = None,
