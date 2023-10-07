@@ -1,3 +1,18 @@
+# Glioma Data Analysis
+Repository for competition submission
+
+## How to start
+Get the competition data from [Kaggle](https://www.kaggle.com/competitions/60504). And place it into `datasets` folder.
+
+Prerequirements: `Python: 3.9+`
+
+```bash
+pip install -r requirements.txt
+export PYTHONPATH=${PYTHONPATH}:$(pwd)
+```
+
+## Task description
+
 1. Your final result should overcome the F1=0.5. Any team with lower results is failed (all or nothing) 
 2. You must provide your working pipeline on the last day of submission. Please, make it look well 
 3. Base EDA and data preprocessing: (+3)
