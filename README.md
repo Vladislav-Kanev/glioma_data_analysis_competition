@@ -2,7 +2,12 @@
 Repository for competition submission
 
 ## How to start
-Get the competition data from [Kaggle](https://www.kaggle.com/competitions/60504).
+Get the competition data from [Kaggle](https://www.kaggle.com/competitions/60504). And place it into `datasets` folder.
+
+```bash
+pip install -r requirements.txt
+export PYTHONPATH=${PYTHONPATH}:$(pwd)
+```
 
 ## Task description
 
