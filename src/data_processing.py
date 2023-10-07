@@ -31,7 +31,8 @@ def convert_age(dataset: pd.DataFrame) -> pd.DataFrame:
 
 
 def encode_dataset(dataset: pd.DataFrame, columns: Optional[list[str]] = None,
-                   save_state: bool = False) -> Union[pd.DataFrame, tuple[pd.DataFrame, dict[str, LabelEncoder]]]:
+                   save_state: bool = False, verbose: bool = False
+                   ) -> Union[pd.DataFrame, tuple[pd.DataFrame, dict[str, LabelEncoder]]]:
 
     if not columns:
         columns = list(dataset.columns)
@@ -41,6 +42,8 @@ def encode_dataset(dataset: pd.DataFrame, columns: Optional[list[str]] = None,
     for column in columns:
         encoder = LabelEncoder().fit(dataset[column])
         dataset[column] = encoder.transform(dataset[column])
+        if verbose:
+            print(f'{column}: {encoder.classes_}')
         if save_state:
             saved_state[column] = encoder
 
