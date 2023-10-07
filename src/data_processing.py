@@ -76,4 +76,5 @@ def encode_dataset(dataset: pd.DataFrame, columns: Optional[list[str]] = None,
 
 
 def normalize_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
-    return StandardScaler().fit_transform(dataset)
+    dataset[:] = StandardScaler().fit_transform(dataset)
+    return dataset.astype(dtype=float)
