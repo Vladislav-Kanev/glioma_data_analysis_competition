@@ -45,7 +45,14 @@ def rf_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
     return best_estimator
 
 
-def voting_classifier(estimators: list, train_data: pd.DataFrame, target: pd.DataFrame):
-    ensemble_model = VotingClassifier(estimators=estimators, voting='soft')
+def voting_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
+    
+    models = [
+        ('RandomForest', RandomForestClassifier(n_estimators=100, random_state=42)),
+        ('GradientBoosting', CatBoostClassifier(verbose=False, random_state=42)),
+        ('LogisticRegression', LogisticRegression(random_state=42))
+    ]
+    
+    ensemble_model = VotingClassifier(estimators=models, voting='soft')
     model = ensemble_model.fit(train_data, target)
     return model
