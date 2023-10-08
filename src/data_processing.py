@@ -14,17 +14,12 @@ def age_to_float(age: str) -> float:
 
     compiled_pattern = re.compile(pattern)
 
-    years = 0
-    days = 0
-
     if match := compiled_pattern.match(age):
         years = int(match.group(pattern_group[0]))
         days = int(match.group(pattern_group[1]))
-        
-    if not match:
-        return np.nan
-    
-    return years + days / 365
+        return years + days / 365
+
+    return np.nan
 
 
 def convert_age(dataset: pd.DataFrame) -> pd.DataFrame:
@@ -37,13 +32,28 @@ def normalize_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
     return dataset.astype(dtype=float)
 
 
-def process_data(dataset: pd.DataFrame, encoder: Literal['OneHot', 'Label'] = 'Label',
-                 target: Optional[str] = None) -> pd.DataFrame:
+def get_fill_value(fill_na: str, subset: pd.DataFrame):
+    if fill_na == 'median':
+        return subset.median()
+    elif fill_na == 'mean':
+        return subset.mean()
+    elif fill_na == 'zero':
+        return 0
+    raise ValueError('Specified N/A replace is incorrect')
+
+
+def process_data(dataset: pd.DataFrame,
+                 encoder: Literal['OneHot', 'Label'] = 'Label',
+                 fill_na: Literal['mean', 'median', 'zero'] = 'median',
+                 target: Optional[str] = None
+                 ) -> pd.DataFrame:
     dataset = dataset.copy().drop(['Case_ID'], axis=1)
 
     dataset['Age_at_diagnosis'] = convert_age(dataset['Age_at_diagnosis'])
-    # dataset.dropna(axis=0, inplace=True)
-    dataset = dataset.fillna(0)
 
     dataset = encode_dataset(dataset, encoder=encoder, target=target)
+
+    for column in dataset.columns:
+        fill_value = get_fill_value(fill_na, dataset[column])
+        dataset[column] = dataset[column].fillna(fill_value)
     return dataset
