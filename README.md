@@ -26,7 +26,7 @@ export PYTHONPATH=${PYTHONPATH}:$(pwd)
     - [x] d. Perform data preprocessing (encode your features in some way, different types of encoding may dramatically affect your model, be selective, try multiple (at least 2) ways)
     
 - [x] 4. Try at least 3 different types of models (+2)
-- [ ] 5. Try an ensemble model with trainable and non-trainable weights. (+2)
+- [x] 5. Try an ensemble model with trainable and non-trainable weights. (+2)
 - [x] 6. Make explainable model (+2)
 - [ ] 7. Aggregate the results, proceed the error analysis, compare the models (+1)
 - [ ] 8. *Try to get the highest score (Top 1 +3; Top 2 +2; Top 3 +1)
