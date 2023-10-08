@@ -2,6 +2,7 @@ import pandas as pd
 from catboost import CatBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
 
 
 def logreg_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
@@ -27,5 +28,16 @@ def catboost_classifier(dataset: pd.DataFrame, targets: pd.DataFrame):
     model = CatBoostClassifier(verbose=False)
     grid_search = GridSearchCV(model, parameters, cv=5, scoring='f1', n_jobs=-1)
     best_estimator = grid_search.fit(dataset, targets)
+
+    return best_estimator
+
+
+def rf_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
+    parameters = {
+        'n_estimators': [50, 100, 200, 300, 400],
+    }
+    model = RandomForestClassifier(random_state=42)
+    grid_search = GridSearchCV(model, parameters)
+    best_estimator = grid_search.fit(train_data, target)
 
     return best_estimator
