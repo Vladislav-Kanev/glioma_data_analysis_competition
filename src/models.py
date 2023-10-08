@@ -3,6 +3,7 @@ from catboost import CatBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import VotingClassifier
 
 
 def logreg_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
@@ -42,3 +43,9 @@ def rf_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
     best_estimator = grid_search.fit(train_data, target)
 
     return best_estimator
+
+
+def voting_classifier(estimators: list, train_data: pd.DataFrame, target: pd.DataFrame):
+    ensemble_model = VotingClassifier(estimators=estimators, voting='soft')
+    model = ensemble_model.fit(train_data, target)
+    return model
