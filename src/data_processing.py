@@ -14,17 +14,12 @@ def age_to_float(age: str) -> float:
 
     compiled_pattern = re.compile(pattern)
 
-    years = 0
-    days = 0
-
     if match := compiled_pattern.match(age):
         years = int(match.group(pattern_group[0]))
         days = int(match.group(pattern_group[1]))
-        
-    if not match:
-        return np.nan
-    
-    return years + days / 365
+        return years + days / 365
+
+    return np.nan
 
 
 def convert_age(dataset: pd.DataFrame) -> pd.DataFrame:
