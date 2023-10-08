@@ -35,6 +35,7 @@ def catboost_classifier(dataset: pd.DataFrame, targets: pd.DataFrame):
 def rf_classifier(train_data: pd.DataFrame, target: pd.DataFrame):
     parameters = {
         'n_estimators': [50, 100, 200, 300, 400],
+        'max_depth' : [6, 8, 10],
     }
     model = RandomForestClassifier(random_state=42)
     grid_search = GridSearchCV(model, parameters)
