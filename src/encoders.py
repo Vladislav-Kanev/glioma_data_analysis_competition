@@ -5,14 +5,16 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
 def encode_dataset(dataset: pd.DataFrame, encoder: Literal['OneHot', 'Label'],
-                   target: str = 'Grade') -> pd.DataFrame:
+                   target: Optional[str] = 'Grade') -> pd.DataFrame:
     object_columns = list(dataset.select_dtypes(include='object').columns)
 
     if encoder == 'OneHot':
         object_columns_copy = object_columns.copy()
-        object_columns_copy.remove(target)
+        if target:
+            object_columns_copy.remove(target)
         encoded_dataset = onehot_encode_dataset(dataset, object_columns_copy)
-        encoded_dataset = label_encode_dataset(encoded_dataset, [target])
+        if target:
+            encoded_dataset = label_encode_dataset(encoded_dataset, [target])
     else:
         encoded_dataset = label_encode_dataset(dataset, object_columns)
     return encoded_dataset

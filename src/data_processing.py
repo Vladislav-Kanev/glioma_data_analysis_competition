@@ -1,8 +1,11 @@
 import re
+from typing import Literal, Optional
 
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+
+from src.encoders import encode_dataset
 
 
 def age_to_float(age: str) -> float:
@@ -32,3 +35,15 @@ def convert_age(dataset: pd.DataFrame) -> pd.DataFrame:
 def normalize_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
     dataset[:] = StandardScaler().fit_transform(dataset)
     return dataset.astype(dtype=float)
+
+
+def process_data(dataset: pd.DataFrame, encoder: Literal['OneHot', 'Label'] = 'Label',
+                 target: Optional[str] = None) -> pd.DataFrame:
+    dataset = dataset.copy().drop(['Case_ID'], axis=1)
+
+    dataset['Age_at_diagnosis'] = convert_age(dataset['Age_at_diagnosis'])
+    # dataset.dropna(axis=0, inplace=True)
+    dataset = dataset.fillna(0)
+
+    dataset = encode_dataset(dataset, encoder=encoder, target=target)
+    return dataset
