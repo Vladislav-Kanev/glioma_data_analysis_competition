@@ -47,7 +47,7 @@ def process_data(dataset: pd.DataFrame,
                  fill_na: Literal['mean', 'median', 'zero'] = 'median',
                  target: Optional[str] = None
                  ) -> pd.DataFrame:
-    dataset = dataset.copy().drop(['Case_ID'], axis=1)
+    dataset = dataset.copy().drop(['Case_ID', 'Primary_Diagnosis'], axis=1)
 
     dataset['Age_at_diagnosis'] = convert_age(dataset['Age_at_diagnosis'])
 
